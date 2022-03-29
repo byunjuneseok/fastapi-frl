@@ -12,6 +12,7 @@ K = TypeVar('K', bound=BaseKeyGenerator)
 
 
 class Limiter(Generic[A, B, K]):
+    _name: str
     _algorithm: A
     _backend: B
     _key_generator: K
@@ -19,10 +20,21 @@ class Limiter(Generic[A, B, K]):
 
     _exception: Exception = HTTPException(429, detail='Too many requests.')
 
-    def __init__(self, backend: B, algorithm: A, key_generator: K, exception: Optional[Exception] = None) -> None:
+    def __init__(
+            self,
+            name: str,
+            backend: B,
+            algorithm: A,
+            key_generator: K,
+            exception: Optional[Exception] = None
+    ) -> None:
+        if not isinstance(name, str):
+            raise ValueError('\"name\" is invalid.')
+
+        self._name = name
 
         if not isinstance(algorithm, BaseAlgorithm):
-            raise ValueError('\"algorithm\" is invalid')
+            raise ValueError('\"algorithm\" is invalid.')
 
         self._algorithm = algorithm
 
@@ -53,4 +65,5 @@ class Limiter(Generic[A, B, K]):
         return self._key_generator.generate_key_from_request(request=request)
 
     async def _request(self, key) -> bool:
+        key = '{}::{}'.format(self._name, key)
         return await self._algorithm.request(key, self._backend)

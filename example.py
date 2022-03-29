@@ -9,6 +9,7 @@ app = FastAPI()
 
 limiter_backend = LimiterBackend('redis://localhost')
 single_limiter = Limiter(
+    name='single_limiter',
     backend=limiter_backend,
     algorithm=SimpleAlgorithm(threshold=2),
     key_generator=NoKey()
@@ -21,6 +22,7 @@ async def root():
 
 
 api_apple_limiter = Limiter(
+    name='api_apple_limiter',
     backend=limiter_backend,
     algorithm=SimpleAlgorithm(threshold=10),
     key_generator=KeyByPath(),
