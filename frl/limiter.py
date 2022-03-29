@@ -2,7 +2,7 @@ from typing import TypeVar, Generic, Optional
 
 from fastapi import HTTPException, Request
 
-from .algorithms import BaseAlgorithm
+from .algorithms.base import BaseAlgorithm
 from .backend import LimiterBackend
 from .key import BaseKeyGenerator
 
