@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, APIRouter
+from fastapi import FastAPI, Depends, APIRouter, HTTPException
 
 from frl.algorithms import SimpleAlgorithm
 from frl.backend import LimiterBackend
@@ -23,7 +23,8 @@ async def root():
 api_apple_limiter = Limiter(
     backend=limiter_backend,
     algorithm=SimpleAlgorithm(threshold=10),
-    key_generator=KeyByPath()
+    key_generator=KeyByPath(),
+    exception=HTTPException(status_code=503, detail='Too many requests for Apples API. (10 hits per minutes allowed)')
 )
 api_apple_router = APIRouter(prefix='/apples', tags=['Apple'], dependencies=[Depends(api_apple_limiter)])
 

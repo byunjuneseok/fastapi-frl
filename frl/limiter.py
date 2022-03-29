@@ -1,4 +1,4 @@
-from typing import TypeVar, Generic
+from typing import TypeVar, Generic, Optional
 
 from fastapi import HTTPException, Request
 
@@ -17,7 +17,9 @@ class Limiter(Generic[A, B, K]):
     _key_generator: K
     _threshold: int
 
-    def __init__(self, backend: B, algorithm: A, key_generator: K) -> None:
+    _exception: Exception = HTTPException(429, detail='Too many requests.')
+
+    def __init__(self, backend: B, algorithm: A, key_generator: K, exception: Optional[Exception] = None) -> None:
 
         if not isinstance(algorithm, BaseAlgorithm):
             raise ValueError('\"algorithm\" is invalid')
@@ -34,12 +36,18 @@ class Limiter(Generic[A, B, K]):
 
         self._key_generator = key_generator
 
+        if exception is not None:
+            if not isinstance(exception, Exception):
+                raise ValueError('\"exception\" is invalid.')
+
+            self._exception = exception
+
     async def __call__(self, request: Request) -> None:
         key = self._get_key_from_request(request=request)
         result = await self._request(key)
 
         if not result:
-            raise HTTPException(503, detail='Rate limit exceeded.')
+            raise self._exception
 
     def _get_key_from_request(self, request: Request) -> str:
         return self._key_generator.generate_key_from_request(request=request)
