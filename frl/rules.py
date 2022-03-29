@@ -1,0 +1,6 @@
+class BaseRule:
+    ...
+
+
+class Duration:
+    ...
