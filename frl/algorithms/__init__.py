@@ -1,5 +1,5 @@
 from .simple import SimpleAlgorithm
-from .window import FixedWindowCounter, WindowSize
+from .window import FixedWindowCounter, SlidingWindowCounter, SlidingWindowLog
 
 
-__all__ = ['SimpleAlgorithm', 'WindowSize', 'FixedWindowCounter']
+__all__ = ['SimpleAlgorithm', 'FixedWindowCounter', 'SlidingWindowCounter', 'SlidingWindowLog']

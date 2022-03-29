@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Depends, APIRouter, HTTPException
 
-from frl.algorithms import SimpleAlgorithm, FixedWindowCounter, WindowSize
+from frl.algorithms import SimpleAlgorithm, FixedWindowCounter, SlidingWindowCounter
 from frl.backend import LimiterBackend
 from frl.key import NoKey, KeyByPath
 from frl.limiter import Limiter
@@ -59,7 +59,7 @@ app.include_router(api_fruit_router)
 api_animal_limiter = Limiter(
     name='api_animal_limiter',
     backend=limiter_backend,
-    algorithm=FixedWindowCounter(WindowSize.SECOND, 3),
+    algorithm=FixedWindowCounter(1, 3),
     key_generator=KeyByPath(),
 )
 api_animal_router = APIRouter(prefix='/animals', tags=['Animals'], dependencies=[Depends(api_animal_limiter)])
@@ -75,3 +75,24 @@ async def get_fruits(animal_id: str):
 
 
 app.include_router(api_animal_router)
+
+
+api_book_limiter = Limiter(
+    name='api_book_limiter',
+    backend=limiter_backend,
+    algorithm=SlidingWindowCounter(10, 10),
+    key_generator=KeyByPath(),
+)
+api_book_router = APIRouter(prefix='/books', tags=['Book'], dependencies=[Depends(api_book_limiter)])
+
+
+@api_book_router.get('/{book_id}/')
+async def get_books(book_id: str):
+
+    return {
+        'requested_id': book_id,
+        'book': 'Book!'
+    }
+
+
+app.include_router(api_book_router)

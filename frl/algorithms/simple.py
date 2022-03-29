@@ -9,7 +9,7 @@ class SimpleAlgorithm(BaseAlgorithm):
         if not isinstance(threshold, int):
             raise ValueError('The threshold must be a positive integer.')
 
-        if threshold < 0:
+        if threshold <= 0:
             raise ValueError('The threshold must be a positive integer.')
 
         self._threshold = threshold
