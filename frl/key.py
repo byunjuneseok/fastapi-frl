@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from typing import TypeVar
 from uuid import uuid4
 
 from fastapi import Request
