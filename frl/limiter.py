@@ -28,10 +28,6 @@ class Limiter(Generic[A, B, K]):
             key_generator: K,
             exception: Optional[Exception] = None
     ) -> None:
-        if not isinstance(name, str):
-            raise ValueError('\"name\" is invalid.')
-
-        self._name = name
 
         if not isinstance(algorithm, BaseAlgorithm):
             raise ValueError('\"algorithm\" is invalid.')
@@ -53,6 +49,12 @@ class Limiter(Generic[A, B, K]):
                 raise ValueError('\"exception\" is invalid.')
 
             self._exception = exception
+
+        if not isinstance(name, str):
+            raise ValueError('\"name\" is invalid.')
+
+        self._name = name
+        self._backend.register_member_name(self._name)
 
     async def __call__(self, request: Request) -> None:
         key = self._get_key_from_request(request=request)
