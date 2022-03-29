@@ -12,9 +12,6 @@ class BaseKeyGenerator(ABC):
         ...
 
 
-K = TypeVar('K', bound=BaseKeyGenerator)
-
-
 class NoKey(BaseKeyGenerator):
     def __init__(self) -> None:
         self.unique_uuid = uuid4().__str__()
