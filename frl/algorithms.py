@@ -25,10 +25,8 @@ class SimpleAlgorithm(BaseAlgorithm):
     async def request(self, key: str, backend: LimiterBackend, **kwargs) -> bool:
         async with backend.get_client() as redis:
             requests = await redis.incr(key)
-            if requests == 1:
-                await redis.expire(key, 60)
-            else:
-                await redis.ttl(key)
-            result = requests <= self._threshold
 
-            return result
+        if requests == 1:
+            await redis.expire(key, 60)
+
+        return requests <= self._threshold
