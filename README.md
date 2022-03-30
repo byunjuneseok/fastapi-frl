@@ -1,4 +1,7 @@
 # fastapi-frl
+[![pypi](https://img.shields.io/pypi/v/fastapi-frl.svg)](https://pypi.python.org/pypi/fastapi-frl)
+[![versions](https://img.shields.io/pypi/pyversions/fastapi-frl.svg)](https://pypi.org/project/fastapi-frl/)
+
 Rate limiter library for FastAPI.
 
 ![diagram](./static/diagram.png)

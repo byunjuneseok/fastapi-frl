@@ -3,11 +3,11 @@ from setuptools import setup, find_packages
 setup(
     name='fastapi-frl',
     version='0.0.5',
-    description='Rate limiter implementation for FastAPI',
+    description='Rate limiter library for FastAPI.',
     author='byunjuneseok',
     author_email='byunjuneseok@gmail.com',
     license='MIT',
-    url='https://github.com/byunjuneseok/fastapi-rate-limiter',
+    url='https://github.com/byunjuneseok/fastapi-frl',
     install_requires=[
         'aioredis==2.0.1',
         'fastapi'
