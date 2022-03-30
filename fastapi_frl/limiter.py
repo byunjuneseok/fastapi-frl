@@ -11,10 +11,10 @@ B = TypeVar('B', bound=LimiterBackend)
 K = TypeVar('K', bound=BaseKeyGenerator)
 
 
-class Limiter(Generic[A, B, K]):
+class Limiter(Generic[A, K]):
     _name: str
     _algorithm: A
-    _backend: B
+    _backend: LimiterBackend
     _key_generator: K
     _threshold: int
 
@@ -23,21 +23,16 @@ class Limiter(Generic[A, B, K]):
     def __init__(
             self,
             name: str,
-            backend: B,
             algorithm: A,
             key_generator: K,
             exception: Optional[Exception] = None
     ) -> None:
+        self._backend = LimiterBackend.get_instance()
 
         if not isinstance(algorithm, BaseAlgorithm):
             raise ValueError('\"algorithm\" is invalid.')
 
         self._algorithm = algorithm
-
-        if not isinstance(backend, LimiterBackend):
-            raise ValueError('\"backend\" is invalid.')
-
-        self._backend = backend
 
         if not isinstance(key_generator, BaseKeyGenerator):
             raise ValueError('\"key_generator\" is invalid.')
@@ -64,8 +59,8 @@ class Limiter(Generic[A, B, K]):
             raise self._exception
 
     def _get_key_from_request(self, request: Request) -> str:
-        return self._key_generator.generate_key_from_request(request=request)
+        key = self._key_generator.generate_key_from_request(request=request)
+        return '{}::{}'.format(self._name, key)
 
     async def _request(self, key) -> bool:
-        key = '{}::{}'.format(self._name, key)
         return await self._algorithm.request(key, self._backend)

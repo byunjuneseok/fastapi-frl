@@ -1,16 +1,14 @@
 from fastapi import FastAPI, Depends, APIRouter, HTTPException
 
-from frl.algorithms import SimpleAlgorithm, FixedWindowCounter, SlidingWindowCounter
-from frl.backend import LimiterBackend
-from frl.key import NoKey, KeyByPath
-from frl.limiter import Limiter
+from fastapi_frl import LimiterBackend, Limiter
+from fastapi_frl.algorithms import SimpleAlgorithm, FixedWindowCounter, SlidingWindowCounter
+from fastapi_frl.key import NoKey, KeyByPath
 
 app = FastAPI()
 
 limiter_backend = LimiterBackend('redis://localhost')
 single_limiter = Limiter(
     name='single_limiter',
-    backend=limiter_backend,
     algorithm=SimpleAlgorithm(threshold=2),
     key_generator=NoKey()
 )
@@ -23,7 +21,6 @@ async def root():
 
 api_fruit_limiter = Limiter(
     name='api_fruit_limiter',
-    backend=limiter_backend,
     algorithm=SimpleAlgorithm(threshold=10),
     key_generator=KeyByPath(),
     exception=HTTPException(status_code=503, detail='Too many requests for Apples API. (10 hits per minutes allowed)')
@@ -58,7 +55,6 @@ app.include_router(api_fruit_router)
 
 api_animal_limiter = Limiter(
     name='api_animal_limiter',
-    backend=limiter_backend,
     algorithm=FixedWindowCounter(1, 3),
     key_generator=KeyByPath(),
 )
@@ -79,7 +75,6 @@ app.include_router(api_animal_router)
 
 api_book_limiter = Limiter(
     name='api_book_limiter',
-    backend=limiter_backend,
     algorithm=SlidingWindowCounter(10, 10),
     key_generator=KeyByPath(),
 )

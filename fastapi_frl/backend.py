@@ -19,10 +19,16 @@ class LimiterBackend:
 
         return cls._instance
 
-    def __init__(self, backend_url=None, **kwargs) -> None:
-        self._install_redis(url=backend_url, **kwargs)
+    @classmethod
+    def get_instance(cls):
+        if cls._instance is None:
+            raise Exception('\"LimiterBackend\" has not been initialized yet.')
+        return cls._instance
 
-    def _install_redis(self, url, **kwargs):
+    def __init__(self, backend_url=None, **kwargs) -> None:
+        self._initialize_redis(url=backend_url, **kwargs)
+
+    def _initialize_redis(self, url, **kwargs):
         self._redis_backend = aioredis.from_url(url, **kwargs)
 
     def get_client(self) -> Redis:
