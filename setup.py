@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='fastapi-frl',
-    version='0.0.4',
+    version='0.0.5',
     description='Rate limiter implementation for FastAPI',
     author='byunjuneseok',
     author_email='byunjuneseok@gmail.com',
