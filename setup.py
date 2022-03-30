@@ -1,0 +1,40 @@
+from setuptools import setup, find_packages
+
+setup(
+    name='fastapi-frl',
+    version='0.0.4',
+    description='Rate limiter implementation for FastAPI',
+    author='byunjuneseok',
+    author_email='byunjuneseok@gmail.com',
+    license='MIT',
+    url='https://github.com/byunjuneseok/fastapi-rate-limiter',
+    install_requires=[
+        'aioredis==2.0.1',
+        'fastapi'
+    ],
+    packages=find_packages(),
+    keywords=['fastapi', 'limiter'],
+    python_requires='>=3.7',
+    package_data={},
+    zip_safe=False,
+    classifiers=[
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3 :: Only',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
+        'Intended Audience :: Developers',
+        'Intended Audience :: Information Technology',
+        'Intended Audience :: System Administrators',
+        'License :: OSI Approved :: MIT License',
+        'Operating System :: Unix',
+        'Operating System :: POSIX :: Linux',
+        'Environment :: Console',
+        'Environment :: MacOS X',
+        'Framework :: Hypothesis',
+        'Topic :: Software Development :: Libraries :: Python Modules',
+        'Topic :: Internet',
+    ],
+)

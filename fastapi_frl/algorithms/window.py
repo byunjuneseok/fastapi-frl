@@ -1,7 +1,7 @@
 from time import time
 
-from frl.backend import LimiterBackend
 from .base import BaseAlgorithm
+from ..backend import LimiterBackend
 
 
 class BaseWindowAlgorithm(BaseAlgorithm):

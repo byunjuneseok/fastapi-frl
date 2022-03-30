@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from frl.backend import LimiterBackend
+from ..backend import LimiterBackend
 
 
 class BaseAlgorithm(ABC):

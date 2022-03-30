@@ -1,5 +1,5 @@
-from frl.backend import LimiterBackend
 from .base import BaseAlgorithm
+from ..backend import LimiterBackend
 
 
 class SimpleAlgorithm(BaseAlgorithm):
