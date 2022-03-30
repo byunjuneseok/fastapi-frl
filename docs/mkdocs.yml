@@ -1,9 +1,11 @@
 site_name: FastAPI Rate Limiter
 
 theme:
+  name: material
+
   icon:
     logo: material/car-cruise-control
-  name: material
+
   palette:
   - media: "(prefers-color-scheme: light)"
     scheme: default
@@ -12,6 +14,7 @@ theme:
     toggle:
       icon: material/brightness-6
       name: "Switch to dark mode"
+
   - media: "(prefers-color-scheme: dark)"
     scheme: slate
     primary: teal
